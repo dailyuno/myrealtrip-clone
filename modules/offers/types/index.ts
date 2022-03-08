@@ -23,7 +23,7 @@ export interface Offer {
   rawCategory: string;
   tags: string[];
   multiCity: boolean;
-  cityCount: boolean;
+  cityCount: number;
   duration: OfferDuration;
   isGuarantee: boolean;
   nowUse: boolean;
