@@ -24,7 +24,7 @@ const OfferCard: React.FC<OfferCardProps> = ({ offer }: OfferCardProps) => {
         <Maybe test={offer.isGuarantee}>
           <span
             className="text-xs p-2 absolute bottom-0 right-0 bg-orange-400 text-gray-50"
-            data-testid="guarantee"
+            data-testid="offer-card-guarantee"
           >
             최저가 보장제
           </span>
@@ -32,17 +32,23 @@ const OfferCard: React.FC<OfferCardProps> = ({ offer }: OfferCardProps) => {
       </div>
       <div className="flex flex-col justify-between h-[145px] px-4 pt-3 pb-4 border-r border-b border-l border-solid border-gray-200 rounded-b">
         <div className="flex flex-col">
-          <div className="text-xs text-gray-500" data-testid="label">
+          <div className="text-xs text-gray-500" data-testid="offer-card-label">
             {offer.category} ・ {city.name}
           </div>
-          <h3 className="text-sm font-medium mt-1" data-testid="title">
+          <h3
+            className="text-sm font-medium mt-1"
+            data-testid="offer-card-title"
+          >
             {offer.title}
           </h3>
         </div>
         <div className="flex justify-between">
           <div className="flex-auto">
             <Maybe test={!review.star}>
-              <div className="flex items-center" data-testid="review-event">
+              <div
+                className="flex items-center"
+                data-testid="offer-card-review-event"
+              >
                 <Image
                   src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMiIgaGVpZ2h0PSIxMiIgdmlld0JveD0iMCAwIDEyIDEyIj4KICAgIDxnIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCI+CiAgICAgICAgPHBhdGggZmlsbD0iIzUxQUJGMyIgZD0iTTYuODc0IDExLjU3MmMtLjQ4Mi0uMjcxLTEuMjYtLjI3NS0xLjc0OCAwbC0uNDY0LjI2Yy0uNDgzLjI3Mi0xLjAzMi4wNzUtMS4yMjctLjQ0bC0uMi0uNTNjLS4xOTUtLjUxNC0uNzg2LTEuMDE3LTEuMzM1LTEuMTI1bC0uNTItLjEwMkMuODM4IDkuNTI4LjU0MiA5LjAyLjcyIDguNDk4bC4xODItLjUzNkMxLjA3OSA3LjQ0Ljk0NSA2LjY3LjU5MyA2LjIzTC4yNiA1LjgxM2MtLjM0OC0uNDM1LS4yNTItMS4wMTcuMjI3LTEuMzFsLjQ1NS0uMjc2Yy40NzMtLjI4OC44NjUtLjk2OC44NzQtMS41MmwuMDEtLjU2N2MuMDA5LS41NTEuNDUyLS45MjggMS4wMDQtLjg0bC41MjMuMDg1Yy41NDYuMDg4IDEuMjc3LS4xNzggMS42NDQtLjYwNmwuMzQ3LS40MDZjLjM2Mi0uNDIyLjk0NS0uNDI4IDEuMzEyIDBsLjM0Ny40MDZjLjM2My40MjIgMS4wOTEuNjk1IDEuNjQ0LjYwNkw5LjE3IDEuM2MuNTQ2LS4wODguOTk1LjI4OCAxLjAwNS44NGwuMDEuNTY2Yy4wMDkuNTUyLjM5NCAxLjIyOC44NzMgMS41MmwuNDU1LjI3N2MuNDczLjI4OC41OC44NjkuMjI3IDEuMzA5bC0uMzMzLjQxN2MtLjM0OC40MzUtLjQ4NiAxLjIxLS4zMDkgMS43MzJsLjE4My41MzZjLjE3Ny41MjEtLjExMiAxLjAyOS0uNjYgMS4xMzdsLS41MjEuMTAyYy0uNTQyLjEwNy0xLjE0LjYxLTEuMzM1IDEuMTI2bC0uMi41MjljLS4xOTUuNTE1LS43MzguNzE2LTEuMjI3LjQ0bC0uNDY0LS4yNnoiLz4KICAgICAgICA8cGF0aCBmaWxsPSIjRkZGIiBkPSJNNS41NzIgNC42NmMwIC44Ni0uNTMxIDEuNDM0LTEuMzIgMS40MzQtLjc4NSAwLTEuMzItLjU3NC0xLjMyLTEuNDM0IDAtLjg1MS41My0xLjQyNiAxLjMyLTEuNDI2Ljc4OSAwIDEuMzIuNTcgMS4zMiAxLjQyNnptLTEuMzIuNjg0Yy4yNzMgMCAuNDUtLjI2Mi40NS0uNjg0IDAtLjQzLS4xNjktLjY4My0uNDUtLjY4My0uMjc3IDAtLjQ1LjI2MS0uNDUuNjgzIDAgLjQyMi4xNzcuNjg0LjQ1LjY4NHpNNC42NTQgOUgzLjU1M2wyLjEyOS0yLjk1MyAxLjY5NS0yLjY4NGgxLjA5OEw2LjMxIDYuMzQgNC42NTQgOXptNC40MTQtMS4zYzAgLjg1NS0uNTMgMS40MjktMS4zMiAxLjQyOS0uNzg1IDAtMS4zMTYtLjU3NC0xLjMxNi0xLjQzIDAtLjg1NS41My0xLjQzIDEuMzE2LTEuNDMuNzkgMCAxLjMyLjU3IDEuMzIgMS40M3ptLTEuMzIuNjc5Yy4yNzMgMCAuNDUtLjI2Mi40NS0uNjg0IDAtLjQzLS4xNjktLjY4LS40NS0uNjgtLjI3NyAwLS40NS4yNTgtLjQ1LjY4IDAgLjQyMi4xNzcuNjg0LjQ1LjY4NHoiLz4KICAgIDwvZz4KPC9zdmc+Cg=="
                   alt="후기 이벤트"
@@ -54,7 +60,10 @@ const OfferCard: React.FC<OfferCardProps> = ({ offer }: OfferCardProps) => {
             </Maybe>
 
             <Maybe test={!!review.star}>
-              <div className="flex items-center" data-testid="review">
+              <div
+                className="flex items-center"
+                data-testid="offer-card-review"
+              >
                 <div className="flex">
                   {stars.map((star) => {
                     return (
@@ -85,7 +94,7 @@ const OfferCard: React.FC<OfferCardProps> = ({ offer }: OfferCardProps) => {
                 </div>
                 <span
                   className="text-xs ml-1 text-gray-600"
-                  data-testid="review-count"
+                  data-testid="offer-card-review-count"
                 >
                   {review.count?.toLocaleString()}
                 </span>
@@ -101,7 +110,7 @@ const OfferCard: React.FC<OfferCardProps> = ({ offer }: OfferCardProps) => {
                   className={`${
                     price.includeDiscount ? "font-medium" : "font-bold"
                   }`}
-                  data-testid="price-origin"
+                  data-testid="offer-card-price-origin"
                 >
                   {price.origin.toLocaleString()}
                 </span>
@@ -110,7 +119,7 @@ const OfferCard: React.FC<OfferCardProps> = ({ offer }: OfferCardProps) => {
               <Maybe test={price.includeDiscount}>
                 <span
                   className="text-[13px] text-gray-600 ml-1"
-                  data-testid="discount"
+                  data-testid="offer-card-discount"
                 >
                   <span className="font-bold">
                     {price.main.toLocaleString()}
@@ -123,7 +132,7 @@ const OfferCard: React.FC<OfferCardProps> = ({ offer }: OfferCardProps) => {
           </div>
 
           <Maybe test={offer.nowUse}>
-            <div className="flex items-end" data-testid="now-use">
+            <div className="flex items-end" data-testid="offer-card-now-use">
               <Image
                 src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI5IiBoZWlnaHQ9IjE2IiB2aWV3Qm94PSIwIDAgOSAxNiI+CiAgICA8cGF0aCBmaWxsPSIjRkZCRjAwIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik0yLjk2MyAxNlY5LjIzSDBMNS45MjYgMHY2Ljc3aDIuOTYzeiIvPgo8L3N2Zz4K"
                 alt="즉시확정"

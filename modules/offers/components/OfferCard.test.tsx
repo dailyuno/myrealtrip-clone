@@ -40,41 +40,41 @@ describe("<OfferCard>", () => {
     expect(screen.getByAltText(title)).toHaveAttribute("src", image);
 
     /* 카테고리와 도시 이름 */
-    expect(screen.getByTestId("label")).toHaveTextContent(
+    expect(screen.getByTestId("offer-card-label")).toHaveTextContent(
       `${category} ・ ${name}`
     );
 
     /* 상품 제목 */
-    expect(screen.getByTestId("title")).toHaveTextContent(title);
+    expect(screen.getByTestId("offer-card-title")).toHaveTextContent(title);
 
     /* 후기 이벤트 */
-    expect(screen.getByTestId("review-event")).toBeInTheDocument();
+    expect(screen.getByTestId("offer-card-review-event")).toBeInTheDocument();
 
     /* 별점 */
-    expect(() => screen.getByTestId("review")).toThrow();
+    expect(() => screen.getByTestId("offer-card-review")).toThrow();
 
     /* 기존 가격 */
-    expect(screen.getByTestId("price-origin")).toHaveTextContent(
+    expect(screen.getByTestId("offer-card-price-origin")).toHaveTextContent(
       origin.toLocaleString()
     );
 
     /* 최저가 보장제 */
-    expect(() => screen.getByTestId("guarantee")).toThrow();
+    expect(() => screen.getByTestId("offer-card-guarantee")).toThrow();
 
     /* 즉시 확정 */
-    expect(() => screen.getByTestId("now-use")).toThrow();
+    expect(() => screen.getByTestId("offer-card-now-use")).toThrow();
   });
 
   it("최저가 보장제 요소는 렌더링 되는가?", () => {
     const fakeOfferEnableGuarantee = { ...fakeOffer, isGuarantee: true };
     render(<OfferCard offer={fakeOfferEnableGuarantee} />);
-    expect(screen.getByTestId("guarantee")).toBeInTheDocument();
+    expect(screen.getByTestId("offer-card-guarantee")).toBeInTheDocument();
   });
 
   it("즉시확정 요소는 렌더링 되는가?", () => {
     const fakeOfferEnableNowUse = { ...fakeOffer, nowUse: true };
     render(<OfferCard offer={fakeOfferEnableNowUse} />);
-    expect(screen.getByTestId("now-use")).toBeInTheDocument();
+    expect(screen.getByTestId("offer-card-now-use")).toBeInTheDocument();
   });
 
   it("별점 요소는 정상적으로 렌더링 되는가?", () => {
@@ -91,10 +91,10 @@ describe("<OfferCard>", () => {
     render(<OfferCard offer={fakeOfferEnableReview} />);
 
     /* 리뷰 요소 */
-    expect(screen.getByTestId("review")).toBeInTheDocument();
+    expect(screen.getByTestId("offer-card-review")).toBeInTheDocument();
 
     /* 리뷰 개수 */
-    expect(screen.getByTestId("review-count")).toHaveTextContent(
+    expect(screen.getByTestId("offer-card-review-count")).toHaveTextContent(
       String(review.count)
     );
   });
@@ -108,7 +108,7 @@ describe("<OfferCard>", () => {
       },
     };
     render(<OfferCard offer={fakeOfferEnableDiscount} />);
-    expect(screen.getByTestId("discount")).toHaveTextContent(
+    expect(screen.getByTestId("offer-card-discount")).toHaveTextContent(
       `${fakeOfferEnableDiscount.price.main.toLocaleString()}원`
     );
   });
