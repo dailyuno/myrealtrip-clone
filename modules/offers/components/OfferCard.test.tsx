@@ -1,24 +1,7 @@
 import { render, screen } from "@testing-library/react";
+import fetcher from "~/utils/fetcher";
 import { Offer } from "../types";
 import OfferCard from "./OfferCard";
-
-const fakeOffer = {
-  title: "[제주투어] 제주 개인택시 택시투어/차량가이드",
-  image:
-    "https://d2ur7st6jjikze.cloudfront.net/offer_photos/83016/515198_medium_1593049840.jpg?1593049840",
-  review: { count: 0, type: "mrt", star: null },
-  category: "가이드 투어",
-  isGuarantee: false,
-  nowUse: false,
-  price: {
-    main: 66000.0,
-    origin: 71000.0,
-    includeDiscount: false,
-  },
-  city: {
-    name: "제주도",
-  },
-} as Offer;
 
 jest.mock(
   "next/image",
@@ -28,88 +11,125 @@ jest.mock(
     }
 );
 
-describe("<OfferCard>", () => {
-  it("정상적으로 렌더링 되는가?", () => {
-    render(<OfferCard offer={fakeOffer} />);
+describe("OfferCard", () => {
+  let offer: Offer;
 
-    const { title, image, category, city, price } = fakeOffer;
-    const { name } = city;
-    const { origin } = price;
-
-    /* 이미지 */
-    expect(screen.getByAltText(title)).toHaveAttribute("src", image);
-
-    /* 카테고리와 도시 이름 */
-    expect(screen.getByTestId("offer-card-label")).toHaveTextContent(
-      `${category} ・ ${name}`
-    );
-
-    /* 상품 제목 */
-    expect(screen.getByTestId("offer-card-title")).toHaveTextContent(title);
-
-    /* 후기 이벤트 */
-    expect(screen.getByTestId("offer-card-review-event")).toBeInTheDocument();
-
-    /* 별점 */
-    expect(() => screen.getByTestId("offer-card-review")).toThrow();
-
-    /* 기존 가격 */
-    expect(screen.getByTestId("offer-card-price-origin")).toHaveTextContent(
-      origin.toLocaleString()
-    );
-
-    /* 최저가 보장제 */
-    expect(() => screen.getByTestId("offer-card-guarantee")).toThrow();
-
-    /* 즉시 확정 */
-    expect(() => screen.getByTestId("offer-card-now-use")).toThrow();
+  beforeAll(async () => {
+    offer = await fetcher("/api/offer/1");
   });
 
-  it("최저가 보장제 요소는 렌더링 되는가?", () => {
-    const fakeOfferEnableGuarantee = { ...fakeOffer, isGuarantee: true };
-    render(<OfferCard offer={fakeOfferEnableGuarantee} />);
-    expect(screen.getByTestId("offer-card-guarantee")).toBeInTheDocument();
+  describe("화면", () => {
+    it("이미지는 정상적으로 렌더링 되는가?", () => {
+      render(<OfferCard offer={offer} />);
+      expect(screen.getByAltText(offer.title)).toHaveAttribute(
+        "src",
+        offer.image
+      );
+    });
+
+    it("카테고리와 도시 이름은 정상적으로 렌더링 되는가?", () => {
+      render(<OfferCard offer={offer} />);
+      expect(screen.getByTestId("offer-card-label")).toHaveTextContent(
+        `${offer.category} ・ ${offer.city.name}`
+      );
+    });
+
+    it("상품 제목은 정상적으로 렌더링 되는가?", () => {
+      render(<OfferCard offer={offer} />);
+      expect(screen.getByTestId("offer-card-title")).toHaveTextContent(
+        offer.title
+      );
+    });
   });
 
-  it("즉시확정 요소는 렌더링 되는가?", () => {
-    const fakeOfferEnableNowUse = { ...fakeOffer, nowUse: true };
-    render(<OfferCard offer={fakeOfferEnableNowUse} />);
-    expect(screen.getByTestId("offer-card-now-use")).toBeInTheDocument();
+  describe("리뷰", () => {
+    it("후기 이벤트 요소는 렌더링 되는가?", () => {
+      const offerWithoutReview = {
+        ...offer,
+        review: {
+          ...offer.review,
+          count: null,
+          star: null,
+        },
+      };
+
+      render(<OfferCard offer={offerWithoutReview} />);
+      expect(screen.getByTestId("offer-card-review-event")).toBeInTheDocument();
+    });
+
+    it("별점 요소는 렌더링 되는가?", () => {
+      const offerWithReview = {
+        ...offer,
+        review: {
+          ...offer.review,
+          count: 10,
+          star: 4.5,
+        },
+      };
+
+      render(<OfferCard offer={offerWithReview} />);
+
+      /* 리뷰 요소 */
+      expect(screen.getByTestId("offer-card-review")).toBeInTheDocument();
+
+      /* 리뷰 개수 */
+      expect(screen.getByTestId("offer-card-review-count")).toHaveTextContent(
+        String(10)
+      );
+    });
   });
 
-  it("별점 요소는 정상적으로 렌더링 되는가?", () => {
-    const review = {
-      count: 10,
-      type: "mrt",
-      star: 4.5,
-    };
-    const fakeOfferEnableReview = {
-      ...fakeOffer,
-      review,
-    };
+  describe("최저가 보장제", () => {
+    it("요소는 렌더링 되는가?", () => {
+      const offerEnableGuarantee = { ...offer, isGuarantee: true };
+      render(<OfferCard offer={offerEnableGuarantee} />);
+      expect(screen.getByTestId("offer-card-guarantee")).toBeInTheDocument();
+    });
 
-    render(<OfferCard offer={fakeOfferEnableReview} />);
-
-    /* 리뷰 요소 */
-    expect(screen.getByTestId("offer-card-review")).toBeInTheDocument();
-
-    /* 리뷰 개수 */
-    expect(screen.getByTestId("offer-card-review-count")).toHaveTextContent(
-      String(review.count)
-    );
+    it("요소는 렌더링 되지 않는가?", () => {
+      const offerDisableGuarantee = { ...offer, isGuarantee: false };
+      render(<OfferCard offer={offerDisableGuarantee} />);
+      expect(() => screen.getByTestId("offer-card-guarantee")).toThrow();
+    });
   });
 
-  it("할인 요소는 정상적으로 렌더링 되는가?", () => {
-    const fakeOfferEnableDiscount = {
-      ...fakeOffer,
-      price: {
-        ...fakeOffer.price,
-        includeDiscount: true,
-      },
-    };
-    render(<OfferCard offer={fakeOfferEnableDiscount} />);
-    expect(screen.getByTestId("offer-card-discount")).toHaveTextContent(
-      `${fakeOfferEnableDiscount.price.main.toLocaleString()}원`
-    );
+  describe("즉시확정", () => {
+    it("요소는 렌더링 되지 않는가?", () => {
+      const offerEnableNowUse = { ...offer, nowUse: true };
+      render(<OfferCard offer={offerEnableNowUse} />);
+      expect(screen.getByTestId("offer-card-now-use")).toBeInTheDocument();
+    });
+
+    it("요소는 렌더링 되지 않는가?", () => {
+      const offerDisableNowUse = { ...offer, nowUse: false };
+      render(<OfferCard offer={offerDisableNowUse} />);
+      expect(() => screen.getByTestId("offer-card-now-use")).toThrow();
+    });
+  });
+
+  describe("가격", () => {
+    it("기존 가격으로 렌더링 되는가?", () => {
+      const offerDisableDiscount = {
+        ...offer,
+        price: { ...offer.price, includeDiscount: false },
+      };
+
+      render(<OfferCard offer={offerDisableDiscount} />);
+      expect(screen.getByTestId("offer-card-price-origin")).toHaveTextContent(
+        offer.price.origin.toLocaleString()
+      );
+    });
+
+    it("할인 가격은 렌더링 되는가?", () => {
+      const offerEnableDiscount = {
+        ...offer,
+        price: { ...offer.price, includeDiscount: true },
+      };
+
+      render(<OfferCard offer={offerEnableDiscount} />);
+      expect(screen.getByTestId("offer-card-discount")).toHaveTextContent(
+        `${offer.price.main.toLocaleString()}원`
+      );
+    });
   });
 });
