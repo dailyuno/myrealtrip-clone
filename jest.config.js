@@ -20,6 +20,7 @@ const customJestConfig = {
     "^~/modules/(.*)$": "<rootDir>/modules/$1",
     "^~/hooks/(.*)$": "<rootDir>/hooks/$1",
     "^~/utils/(.*)$": "<rootDir>/utils/$1",
+    "^~/mocks/(.*)$": "<rootDir>/mocks/$1",
   },
   testEnvironment: "jest-environment-jsdom",
 };
