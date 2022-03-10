@@ -1,47 +1,46 @@
 import { render, screen } from "@testing-library/react";
-import { Offer, OfferContainer } from "../types";
+import { OfferContainer } from "../types";
 import OfferCardContainer from "./OfferCardContainer";
 import { mocked } from "jest-mock";
 import OfferCard from "./OfferCard";
-
-const fakeOfferContainer = {
-  title: "실시간 베스트 상품",
-  offers: [],
-  section: {
-    name: "MAIN_TOPN",
-    page_name: "main",
-    pos: 0,
-    title: "실시간 베스트 상품",
-    more_link: null,
-  },
-} as OfferContainer;
+import fetcher from "~/utils/fetcher";
 
 jest.mock("./OfferCard", () => jest.fn(() => <div></div>));
 const mockedOfferCard = mocked(OfferCard);
 
 describe("OfferContainer", () => {
+  let offerContainer: OfferContainer;
+
+  beforeAll(async () => {
+    offerContainer = await fetcher("/api/offer-container");
+  });
+
   beforeEach(() => {
     mockedOfferCard.mockClear();
   });
 
-  it("렌더링은 정상적으로 되는가?", () => {
-    const { title } = fakeOfferContainer;
-
-    render(<OfferCardContainer container={fakeOfferContainer} />);
-    expect(screen.getByTestId("offer-container-title")).toHaveTextContent(
-      title
-    );
-    expect(mockedOfferCard).toBeCalledTimes(0);
+  describe("화면", () => {
+    it("제목은 정상적으로 나오는가?", () => {
+      render(<OfferCardContainer container={offerContainer} />);
+      expect(screen.getByTestId("offer-container-title")).toHaveTextContent(
+        offerContainer.title
+      );
+    });
   });
 
-  it("offerCard 컴포넌트는 정상적으로 렌더링 되는가?", () => {
-    const offers = [{ id: 1 }, { id: 2 }] as Offer[];
-    const fakeOfferContainerWithOffers = {
-      ...fakeOfferContainer,
-      offers,
-    };
+  describe("offerCard 컴포넌트", () => {
+    it("여러 개 렌더링 되는가?", () => {
+      render(<OfferCardContainer container={offerContainer} />);
+      expect(mockedOfferCard).toBeCalledTimes(offerContainer.offers.length);
+    });
 
-    render(<OfferCardContainer container={fakeOfferContainerWithOffers} />);
-    expect(mockedOfferCard).toBeCalledTimes(offers.length);
+    it("렌더링 되지 않는가?", () => {
+      const offerContainerWithoutOffers = {
+        ...offerContainer,
+        offers: [],
+      };
+      render(<OfferCardContainer container={offerContainerWithoutOffers} />);
+      expect(mockedOfferCard).toBeCalledTimes(0);
+    });
   });
 });
