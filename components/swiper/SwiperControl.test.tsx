@@ -1,25 +1,16 @@
-import { render, screen } from "@testing-library/react";
-import { Swiper, SwiperSlide } from "swiper/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import SwiperCore from "swiper";
 import SwiperControl from "./SwiperControl";
-import { useState } from "react";
-import Maybe from "../common/Maybe";
 
 const swiper = {
   isBeginning: true,
   isEnd: false,
-  slidePrev() {
-    this.isBeginning = false;
-    this.isEnd = true;
-  },
-  slideNext() {
-    this.isEnd = true;
-    this.isBeginning = false;
-  },
+  slidePrev() {},
+  slideNext() {},
 } as SwiperCore;
 
 describe("SwiperControl", () => {
-  describe("좌우 버튼", () => {
+  describe("버튼 렌더링", () => {
     it("좌측 버튼은 렌더링 되지 않는가?", () => {
       const swiperDisableLeftButton = {
         ...swiper,
@@ -58,6 +49,33 @@ describe("SwiperControl", () => {
 
       render(<SwiperControl swiper={swiperEnableRightButton} />);
       expect(screen.getByTestId("swiper-navigation-right")).toBeInTheDocument();
+    });
+  });
+
+  describe("버튼 렌더링", () => {
+    const slidePrev = jest.spyOn(swiper, "slidePrev");
+    const slideNext = jest.spyOn(swiper, "slideNext");
+
+    it("좌측 버튼 클릭", () => {
+      const swiperEnableLeftButton = {
+        ...swiper,
+        isBeginning: false,
+      };
+
+      render(<SwiperControl swiper={swiperEnableLeftButton} />);
+      fireEvent.click(screen.getByTestId("swiper-navigation-left"));
+      expect(slidePrev).toHaveBeenCalledTimes(1);
+    });
+
+    it("우측 버튼 클릭", () => {
+      const swiperEnableRightButton = {
+        ...swiper,
+        isEnd: false,
+      };
+
+      render(<SwiperControl swiper={swiperEnableRightButton} />);
+      fireEvent.click(screen.getByTestId("swiper-navigation-right"));
+      expect(slideNext).toHaveBeenCalledTimes(1);
     });
   });
 });
