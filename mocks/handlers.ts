@@ -10,6 +10,9 @@ import { Offer, OfferContainer } from "~/modules/offers/types";
 const handlers: RestHandler<MockedRequest<DefaultRequestBody>>[] = [
   rest.get<DefaultRequestBody>("/api/fetcher/:id", (req, res, ctx) => {
     const { id } = req.params;
+    if (id === "404") {
+      return res(ctx.status(404));
+    }
     return res(ctx.status(200), ctx.json([{ id }]));
   }),
 
