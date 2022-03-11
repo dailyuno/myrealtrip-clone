@@ -1,3 +1,4 @@
+import { debug } from "console";
 import fetcher from "./fetcher";
 
 describe("fetcher", () => {
@@ -9,7 +10,7 @@ describe("fetcher", () => {
 
   it("fetcher 실패", async () => {
     try {
-      await fetcher("/api/fetcher");
+      await fetcher("/api/fetcher/404");
     } catch (e: any) {
       expect(e.response.status).toBe(404);
     }
