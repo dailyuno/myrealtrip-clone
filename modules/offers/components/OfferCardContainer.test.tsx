@@ -5,6 +5,14 @@ import { mocked } from "jest-mock";
 import OfferCard from "./OfferCard";
 import fetcher from "~/utils/fetcher";
 
+jest.mock("swiper/react", () => {
+  return {
+    __esModule: true,
+    Swiper: jest.fn(({ children }) => <div>{children}</div>),
+    SwiperSlide: jest.fn(({ children }) => <div>{children}</div>),
+  };
+});
+
 jest.mock("./OfferCard", () => jest.fn(() => <div></div>));
 const mockedOfferCard = mocked(OfferCard);
 
