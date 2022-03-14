@@ -1,0 +1,112 @@
+{
+  "popularCities": [
+    {
+      "type": "city",
+      "key": "Las Vegas",
+      "name": "라스베가스",
+      "image": "https://d2ur7st6jjikze.cloudfront.net/landscapes/4654_large_square_1535621335.jpg?1535621335",
+      "begin": null,
+      "city_intro": "",
+      "active_product_count": 240
+    },
+    {
+      "type": "city",
+      "key": "Paris",
+      "name": "파리",
+      "image": "https://d2ur7st6jjikze.cloudfront.net/landscapes/4747_large_square_1536047752.jpg?1536047752",
+      "begin": null,
+      "city_intro": "",
+      "active_product_count": 670
+    },
+    {
+      "type": "city",
+      "key": "Jeju",
+      "name": "제주도",
+      "image": "https://d2ur7st6jjikze.cloudfront.net/landscapes/4737_large_square_1535949304.jpg?1535949304",
+      "begin": null,
+      "city_intro": "https://d2ur7st6jjikze.cloudfront.net/intros/50/Jeju_intro.mp4",
+      "active_product_count": 3150
+    },
+    {
+      "type": "city",
+      "key": "Seoul",
+      "name": "서울",
+      "image": "https://d2ur7st6jjikze.cloudfront.net/landscapes/4744_large_square_1535960572.jpg?1535960572",
+      "begin": null,
+      "city_intro": "",
+      "active_product_count": 1400
+    },
+    {
+      "type": "city",
+      "key": "Daegu",
+      "name": "대구",
+      "image": "https://d2ur7st6jjikze.cloudfront.net/landscapes/884_large_square_1502954673.jpg?1502954673",
+      "begin": null,
+      "city_intro": "",
+      "active_product_count": 120
+    },
+    {
+      "type": "city",
+      "key": "Jeolla-do",
+      "name": "전라도",
+      "image": "https://d2ur7st6jjikze.cloudfront.net/landscapes/456_large_square_1439871496.jpg?1439871496",
+      "begin": null,
+      "city_intro": "",
+      "active_product_count": 1810
+    },
+    {
+      "type": "city",
+      "key": "gyeonggi-do",
+      "name": "경기도",
+      "image": "https://d2ur7st6jjikze.cloudfront.net/landscapes/832_large_square_1493257137.jpg?1493257137",
+      "begin": null,
+      "city_intro": "",
+      "active_product_count": 2550
+    },
+    {
+      "type": "city",
+      "key": "Gwacheon",
+      "name": "과천",
+      "image": "https://d2ur7st6jjikze.cloudfront.net/landscapes/792_large_square_1490076090.jpg?1490076090",
+      "begin": null,
+      "city_intro": "",
+      "active_product_count": 10
+    },
+    {
+      "type": "city",
+      "key": "Yeosu",
+      "name": "여수",
+      "image": "https://d2ur7st6jjikze.cloudfront.net/landscapes/695_large_square_1480568236.jpg?1480568236",
+      "begin": null,
+      "city_intro": "",
+      "active_product_count": 50
+    },
+    {
+      "type": "city",
+      "key": "Busan",
+      "name": "부산",
+      "image": "https://d2ur7st6jjikze.cloudfront.net/landscapes/401_large_square_1435713499.jpg?1435713499",
+      "begin": null,
+      "city_intro": "",
+      "active_product_count": 600
+    },
+    {
+      "type": "city",
+      "key": "Gyeongsang-do",
+      "name": "경상도",
+      "image": "https://d2ur7st6jjikze.cloudfront.net/landscapes/455_large_square_1439866837.jpg?1439866837",
+      "begin": null,
+      "city_intro": "",
+      "active_product_count": 3150
+    },
+    {
+      "type": "city",
+      "key": "Gyeongju",
+      "name": "경주",
+      "image": "https://d2ur7st6jjikze.cloudfront.net/landscapes/292_large_square_1430355824.jpg?1430355824",
+      "begin": null,
+      "city_intro": "",
+      "active_product_count": 100
+    }
+  ]
+}
